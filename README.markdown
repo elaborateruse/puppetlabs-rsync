@@ -31,6 +31,7 @@ get files via rsync
     $include    - string (or array) to be included
     $exclude    - string (or array) to be excluded
     $keyfile    - ssh key used to connect to remote host
+    $sshport    - port on which ssh should connect
     $timeout    - timeout in seconds, defaults to 900
     $execuser   - user to run the command (passed to exec)
     $options    - default options to pass to rsync (-a)

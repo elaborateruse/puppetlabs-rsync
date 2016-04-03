@@ -10,6 +10,7 @@
 #   $exlude  - string (or array) to be excluded
 #   $include - string (or array) to be included
 #   $keyfile - path to ssh key used to connect to remote host, defaults to /home/${user}/.ssh/id_rsa
+#   $sshport - port on which ssh should connect
 #   $timeout - timeout in seconds, defaults to 900
 #   $options - default options to pass to rsync (-a)
 #   $onlyif  - Condition to run the rsync command
@@ -40,6 +41,7 @@ define rsync::get (
   $include    = undef,
   $exclude    = undef,
   $keyfile    = undef,
+  $sshport    = undef,
   $timeout    = '900',
   $execuser   = 'root',
   $options    = '-a',
@@ -52,9 +54,15 @@ define rsync::get (
   } else {
     $mykeyfile = "/home/${user}/.ssh/id_rsa"
   }
+  
+  if $sshport {
+    $mysshport = "-p ${sshport}"
+  } else {
+    $mysshport = ''
+  }
 
   if $user {
-    $myUser = "-e 'ssh -i ${mykeyfile} -l ${user}' ${user}@"
+    $myUser = "-e 'ssh -i ${mykeyfile} -l ${user} ${mysshport}' ${user}@"
   }
 
   if $purge {
